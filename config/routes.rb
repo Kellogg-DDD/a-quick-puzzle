@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   get("/", { :controller => "pages", :action => "puzzle" })
   post("/record_guess", { :controller => "pages", :action => "write_cookie" })
+  get("/guessAnswer", { :controller => "pages", :action => "guess_answer" })
 
   # ======== Add your routes above this =============
   devise_for :admin_users, ActiveAdmin::Devise.config

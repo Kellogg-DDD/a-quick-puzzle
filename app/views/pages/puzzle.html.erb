@@ -20,50 +20,55 @@ you want. </p>
 
 <!-- STATIC INTRO CONTENT ABOVE -->
 
-<p class="lead">
-  Your guesses:
-</p>
-
 <!-- LOOP OVER ALL OF THE USER'S GUESSES HERE -->
-  <!-- Here's the first guess -->
+<% if @guessesEmpty %>
+<p></p>
+
+<% else %>
   <p class="lead">
-    <span class="badge badge-success">
-      3
-    </span>
-
-    <span class="badge badge-success">
-      6
-    </span>
-
-    <span class="badge badge-success">
-      12
-    </span>
-
-    <span class="text-success">
-        Yes!
-    </span>
+    Your guesses:
   </p>
-  <!-- End first guess -->
+  <% session.fetch(:guesses).each do |guess| %>
 
-  <!-- Here's the second guess -->
   <p class="lead">
-    <span class="badge badge-danger">
-      3
-    </span>
+    <% if guess.fetch(3) == "success" %>
+      <span class="badge badge-success">
+        <%= guess.fetch(0) %>
+      </span>
 
-    <span class="badge badge-danger">
-      2
-    </span>
+      <span class="badge badge-success">
+        <%= guess.fetch(1) %>
+      </span>
 
-    <span class="badge badge-danger">
-      1
-    </span>
+      <span class="badge badge-success">
+        <%= guess.fetch(2) %>
+      </span>
 
-    <span class="text-danger">
-        No.
-    </span>
+      <span class="text-success">
+          Yes!
+      </span>
+
+    <% else %>
+
+      <span class="badge badge-danger">
+        <%= guess.fetch(0) %>
+      </span>
+
+      <span class="badge badge-danger">
+        <%= guess.fetch(1) %>
+      </span>
+
+      <span class="badge badge-danger">
+        <%= guess.fetch(2) %>
+      </span>
+
+      <span class="text-danger">
+          No.
+      </span>
+    <% end %>
   </p>
-  <!-- End second guess -->
+  <% end %>
+<% end %>
 <!-- END GUESSES LOOP -->
 
 <!-- SECTION FOR THE GUESS FORM -->
@@ -101,19 +106,24 @@ you want. </p>
 your answer. <strong>Make sure you’re right; you won’t get a second
 chance.</strong></p>
 
+<form action="/guessAnswer">
+  <div class="form-group">
+    <label for="guess">My guess at the rule</label>
+    <textarea id="guess" name="guess" class="w-100" placeholder="Enter your guess when you're ready"></textarea>
+  </div>
+
+  <button>Check</button>
+</form>
+
 <hr>
 
 <!-- FORM FOR FINAL RULE ENTRY GOES SOMEWHERE HERE -->
 
-
-<h2>Your guess was:</h2>
-
-<p class="lead">
-  Doubling numbers
-</p>
+<% if @finalGuess %>
+  <h2>Your guess was:</h2>
+  <p> <%= session.fetch(:answerGuess) %></p>
 
 <!-- Static conclusion content below -->
-
 
 <p class="lead">The answer was extremely basic. The rule was simply: <strong>Each number must
 be larger than the one before it.</strong> 5, 10, 20 satisfies the rule, as does
@@ -215,3 +225,4 @@ specialist, for suggesting this problem and helping put it in a larger
 context.</p>
 
 <p class="lead"><a href="https://www.nytimes.com/interactive/2015/07/03/upshot/a-quick-puzzle-to-test-your-problem-solving.html" target="_blank">Original source</a>: https://www.nytimes.com/interactive/2015/07/03/upshot/a-quick-puzzle-to-test-your-problem-solving.html</p>
+<% end %>
